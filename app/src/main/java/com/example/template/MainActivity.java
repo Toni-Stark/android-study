@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mShowCount = (TextView) findViewById(R.id.textView2);
+//        mShowCount = (TextView) findViewById(R.id.textView2);
         Log.d("MainActivity", "[log]------------------");
         Log.d("MainActivity", "HappyBirthday~~~");
         Log.d("MainActivity", "[log]------------------");
@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         if (mShowCount != null) {
             mShowCount.setText(Integer.toString(count));
         }
-        Toast toast = Toast.makeText(this, R.string.toast_message, Toast.LENGTH_SHORT);
-        toast.show();
+//        Toast toast = Toast.makeText(this, R.string.toast_message, Toast.LENGTH_SHORT);
+//        toast.show();
     }
 
     public void addShowToast(View view) {

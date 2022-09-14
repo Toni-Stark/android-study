@@ -1,0 +1,4 @@
+<resources>
+    <string name="string_name">text_string</string>
+    <string name="padding_regular">10dp</string>
+</resources>
