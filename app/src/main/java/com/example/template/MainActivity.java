@@ -2,41 +2,61 @@ package com.example.template;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
+import android.content.Intent;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private int mCount = 0;
-    private TextView mShowCount;
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    // Unique tag required for the intent extra
+    public static final String EXTRA_MESSAGE
+            = "com.example.android.twoactivities.extra.MESSAGE";
+    // Unique tag for the intent reply
+    public static final int TEXT_REQUEST = 1;
+
+    // EditText view for the message
+    private EditText mMessageEditText;
+    // TextView for the reply header
+    private TextView mReplyHeadTextView;
+    // TextView for the reply body
+    private TextView mReplyTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        mShowCount = (TextView) findViewById(R.id.textView2);
-        Log.d("MainActivity", "[log]------------------");
-        Log.d("MainActivity", "HappyBirthday~~~");
-        Log.d("MainActivity", "[log]------------------");
+
+        // Initialize all the view variables.
+        mMessageEditText = findViewById(R.id.editText_main);
+        mReplyHeadTextView = findViewById(R.id.text_header_reply);
+        mReplyTextView = findViewById(R.id.text_message_reply);
     }
 
-    public void setCount(int count) {
-        if (mShowCount != null) {
-            mShowCount.setText(Integer.toString(count));
+    public void launchSecondActivity(View view) {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, SecondActivity.class);
+        String message = mMessageEditText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivityForResult(intent, TEXT_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == TEXT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                String reply = data.getStringExtra(SecondActivity.EXTRA_REPLY);
+
+                mReplyHeadTextView.setVisibility(View.VISIBLE);
+
+                mReplyTextView.setText(reply);
+                mReplyTextView.setVisibility(View.VISIBLE);
+            }
         }
-//        Toast toast = Toast.makeText(this, R.string.toast_message, Toast.LENGTH_SHORT);
-//        toast.show();
-    }
-
-    public void addShowToast(View view) {
-        mCount++;
-        setCount(mCount);
-    }
-
-    public void deleteShowToast(View view) {
-        mCount--;
-        setCount(mCount);
     }
 }
